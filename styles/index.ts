@@ -23,16 +23,19 @@ export const style = StyleSheet.create({
     marginBottom: 10,
   },
   input: {
-    padding: 5,
+    padding: 10,
     borderWidth: 1,
     borderColor: "#000",
-    borderRadius: 6,
+    borderRadius: 8,
   },
   button: {
-    backgroundColor: "#000",
+    backgroundColor: "#0a851e",
+    borderRadius: 8,
     color: "#fff",
-    padding: 10,
-    borderRadius: 6,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
     marginTop: 10,
+    padding: 10,
   }
 });
