@@ -23,7 +23,7 @@ export default function Index() {
           onFocus={() => setIsFocused(true)}
         />
         <Pressable>
-          <Text style={style.button}>Create Account</Text>
+          <Text style={style.button}>Create an Account</Text>
         </Pressable>
       </View>
     </View>
