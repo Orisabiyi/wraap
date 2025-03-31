@@ -18,24 +18,27 @@ export const style = StyleSheet.create({
     gap: 10,
   },
   formHeader: {
-    fontSize: 24,
-    fontWeight: "600",
+    fontSize: 28,
     marginBottom: 10,
   },
   input: {
     padding: 10,
     paddingInline: 15,
     borderWidth: 1,
-    borderColor: "#000",
+    borderRadius: 5,
+    borderColor: "#BEBFC5",
     fontSize: 14,
+    fontFamily: "Kanit_400Regular"
   },
   button: {
     backgroundColor: "#A4DF1B",
     borderRadius: 10,
     textAlign: "center",
+    color: "#010B13",
     fontSize: 18,
     fontWeight: "600",
     marginTop: 10,
     padding: 15,
+    fontFamily: "Kanit_500Medium",
   }
 });
