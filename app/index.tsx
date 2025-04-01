@@ -20,10 +20,19 @@ export default function Index() {
     Kanit_600SemiBold,
     Kanit_500Medium,
   });
+
   const [isFocused, setIsFocused] = useState(false);
+
+  // client data
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   if (!fontsLoaded) {
     return <AppLoading />;
+  }
+
+  function handleSubmit() {
+    console.log(email, password);
   }
 
   return (
@@ -34,19 +43,23 @@ export default function Index() {
         </Text>
 
         <TextInput
+          value={email}
+          onChangeText={(text) => setEmail(text)}
           placeholder="Email"
-          style={[style.input, isFocused && { outline: "none" }]}
           placeholderTextColor={"#BEBFC5"}
           onFocus={() => setIsFocused(true)}
+          style={[style.input, isFocused && { outline: "none" }]}
         />
         <TextInput
+          value={password}
+          onChangeText={(text) => setPassword(text)}
           placeholder="Password"
           secureTextEntry={true}
-          style={[style.input, isFocused && { outline: "none" }]}
           placeholderTextColor={"#BEBFC5"}
           onFocus={() => setIsFocused(true)}
+          style={[style.input, isFocused && { outline: "none" }]}
         />
-        <Pressable>
+        <Pressable onPress={() => handleSubmit()}>
           <Text style={style.button}>Create an Account</Text>
         </Pressable>
       </View>
@@ -63,10 +76,10 @@ export default function Index() {
       <View
         style={[
           style.formContainer,
-          { paddingVertical: 0, borderRadius: 0, marginTop: 30,},
+          { paddingVertical: 0, borderRadius: 0, marginTop: 30 },
         ]}
       >
-        <Text style={[thirdPartyStyles.text, {color: "#000"}]}>
+        <Text style={[thirdPartyStyles.text, { color: "#000" }]}>
           Already have an account?{" "}
           <Pressable onPress={() => router.push("./login")}>
             <Text style={{ color: "#A4DF1B" }}>Login</Text>
