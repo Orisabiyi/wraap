@@ -1,17 +1,19 @@
 import "./global.css";
-import { Pressable, Text, TextInput, View } from "react-native";
-import { style } from "../styles/index";
+import { Button, Pressable, Text, TextInput, View } from "react-native";
+import { style, thirdPartyStyles } from "../styles/index";
 import { useState } from "react";
 import {
   useFonts,
   Kanit_700Bold,
   Kanit_400Regular,
   Kanit_500Medium,
-  Kanit_600SemiBold
+  Kanit_600SemiBold,
 } from "@expo-google-fonts/kanit";
 import AppLoading from "expo-app-loading";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
   const [fontsLoaded] = useFonts({
     Kanit_400Regular,
     Kanit_700Bold,
@@ -47,6 +49,29 @@ export default function Index() {
         <Pressable>
           <Text style={style.button}>Create an Account</Text>
         </Pressable>
+      </View>
+
+      <View style={[style.formContainer, { paddingVertical: 0, gap: 2 }]}>
+        <Pressable style={thirdPartyStyles.button}>
+          <Text style={thirdPartyStyles.text}>Continue with Google</Text>
+        </Pressable>
+        <Pressable style={thirdPartyStyles.button}>
+          <Text style={thirdPartyStyles.text}>Continue with Facebook</Text>
+        </Pressable>
+      </View>
+
+      <View
+        style={[
+          style.formContainer,
+          { paddingVertical: 0, borderRadius: 0, marginTop: 30,},
+        ]}
+      >
+        <Text style={[thirdPartyStyles.text, {color: "#000"}]}>
+          Already have an account?{" "}
+          <Pressable onPress={() => router.push("./login")}>
+            <Text style={{ color: "#A4DF1B" }}>Login</Text>
+          </Pressable>
+        </Text>
       </View>
     </View>
   );

@@ -9,7 +9,6 @@ export const style = StyleSheet.create({
   },
   formContainer: {
     width: "95%",
-    height: "50%",
     padding: 20,
     paddingTop: 30,
     borderRadius: 10,
@@ -42,3 +41,23 @@ export const style = StyleSheet.create({
     fontFamily: "Kanit_500Medium",
   }
 });
+
+export const thirdPartyStyles = StyleSheet.create({
+  button: {
+    backgroundColor: "#100C08",
+    borderRadius: 10,
+    textAlign: "center",
+    color: "#010B13",
+    fontSize: 18,
+    fontWeight: "600",
+    marginTop: 10,
+    padding: 15,
+    fontFamily: "Kanit_500Medium",
+  },
+  text: {
+    fontFamily: "Kanit_400Regular",
+    textAlign: "center",
+    fontSize: 16,
+    color: "#fff"
+  }
+})
