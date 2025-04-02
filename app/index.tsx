@@ -1,7 +1,7 @@
 import "./global.css";
 import { Button, Pressable, Text, TextInput, View } from "react-native";
 import { style, thirdPartyStyles } from "../styles/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useFonts,
   Kanit_700Bold,
@@ -24,15 +24,28 @@ export default function Index() {
   const [isFocused, setIsFocused] = useState(false);
 
   // client data
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(
+    function () {
+      const timerId = setTimeout(() => setError(""), 3000);
+
+      return () => clearTimeout(timerId);
+    },
+    [error]
+  );
 
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
   function handleSubmit() {
+    if (!email || !password) return setError("Email Or Password is empty");
+
     console.log(email, password);
+    setError("");
   }
 
   return (
@@ -59,6 +72,13 @@ export default function Index() {
           onFocus={() => setIsFocused(true)}
           style={[style.input, isFocused && { outline: "none" }]}
         />
+
+        {error && (
+          <Text style={{ fontFamily: "Kanit_400Regular", color: "red" }}>
+            {error}
+          </Text>
+        )}
+
         <Pressable onPress={() => handleSubmit()}>
           <Text style={style.button}>Create an Account</Text>
         </Pressable>
