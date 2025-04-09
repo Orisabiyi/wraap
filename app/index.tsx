@@ -1,4 +1,3 @@
-import "./global.css";
 import { Button, Pressable, Text, TextInput, View } from "react-native";
 import { style, thirdPartyStyles } from "../styles/index";
 import { useEffect, useState } from "react";
@@ -45,6 +44,7 @@ export default function Index() {
     if (!email || !password) return setError("Email Or Password is empty");
 
     console.log(email, password);
+    router.push("/otp");
     setError("");
   }
 
@@ -97,8 +97,7 @@ export default function Index() {
         style={[
           style.formContainer,
           { paddingVertical: 0, borderRadius: 0, marginTop: 30 },
-        ]}
-      >
+        ]}>
         <Text style={[thirdPartyStyles.text, { color: "#000" }]}>
           Already have an account?{" "}
           <Pressable onPress={() => router.push("./login")}>
