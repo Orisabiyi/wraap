@@ -11,9 +11,12 @@ import { Pressable, Text, View } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 import { handleResendOtp, handleVerifyOtp } from "../domain/User";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 
 export default function Index(): JSX.Element {
   const router = useRouter();
+  const [error, setError] = useState<string>("");
+  const [otp, setOtp] = useState<string>("");
   const [fontsLoaded] = useFonts({
     Kanit_300Light,
     Kanit_400Regular,
@@ -21,6 +24,15 @@ export default function Index(): JSX.Element {
     Kanit_600SemiBold,
     Kanit_500Medium,
   });
+
+  useEffect(
+    function () {
+      const timerId = setTimeout(() => setError(""), 3000);
+
+      return () => clearTimeout(timerId);
+    },
+    [error]
+  );
 
   return (
     <View style={style.container}>
@@ -45,7 +57,7 @@ export default function Index(): JSX.Element {
           type="numeric"
           numberOfDigits={4}
           placeholder="****"
-          onFilled={(code) => console.log(code)}
+          onFilled={(code) => setOtp(code)}
           textInputProps={{
             accessibilityLabel: "One-Time Password",
           }}
@@ -56,6 +68,12 @@ export default function Index(): JSX.Element {
           }}
         />
 
+        {error && (
+          <Text style={{ fontFamily: "Kanit_400Regular", color: "red" }}>
+            {error}
+          </Text>
+        )}
+
         <Text style={style.resendText}>
           OTP not received?{" "}
           <span style={{ color: "#A4DF1B" }} onClick={handleResendOtp}>
@@ -65,7 +83,7 @@ export default function Index(): JSX.Element {
 
         <Pressable
           style={{ width: "100%", marginTop: 20 }}
-          onPress={() => handleVerifyOtp(router)}>
+          onPress={() => handleVerifyOtp(otp, setError, router)}>
           <Text style={style.button}>Submit</Text>
         </Pressable>
       </View>
