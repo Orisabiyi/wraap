@@ -1,4 +1,4 @@
-import { Button, Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 import { style, thirdPartyStyles } from "../styles/index";
 import { useEffect, useState } from "react";
 import {
@@ -10,8 +10,9 @@ import {
 } from "@expo-google-fonts/kanit";
 import AppLoading from "expo-app-loading";
 import { useRouter } from "expo-router";
+import { handleCreateUser } from "./domain/User";
 
-export default function Index() {
+export default function Index(): JSX.Element {
   const router = useRouter();
   const [fontsLoaded] = useFonts({
     Kanit_400Regular,
@@ -38,14 +39,6 @@ export default function Index() {
 
   if (!fontsLoaded) {
     return <AppLoading />;
-  }
-
-  function handleSubmit() {
-    if (!email || !password) return setError("Email Or Password is empty");
-
-    console.log(email, password);
-    router.push("/otp");
-    setError("");
   }
 
   return (
@@ -79,7 +72,8 @@ export default function Index() {
           </Text>
         )}
 
-        <Pressable onPress={() => handleSubmit()}>
+        <Pressable
+          onPress={() => handleCreateUser(email, password, router, setError)}>
           <Text style={style.button}>Create an Account</Text>
         </Pressable>
       </View>
