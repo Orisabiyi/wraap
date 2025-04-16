@@ -1,12 +1,4 @@
 import { style } from "@/styles/otp";
-import {
-  Kanit_300Light,
-  Kanit_400Regular,
-  Kanit_500Medium,
-  Kanit_600SemiBold,
-  Kanit_700Bold,
-  useFonts,
-} from "@expo-google-fonts/kanit";
 import { Pressable, Text, View } from "react-native";
 import { OtpInput } from "react-native-otp-entry";
 import { handleResendOtp, handleVerifyOtp } from "../domain/User";
@@ -17,13 +9,6 @@ export default function Index(): JSX.Element {
   const router = useRouter();
   const [error, setError] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
-  const [fontsLoaded] = useFonts({
-    Kanit_300Light,
-    Kanit_400Regular,
-    Kanit_700Bold,
-    Kanit_600SemiBold,
-    Kanit_500Medium,
-  });
 
   useEffect(
     function () {

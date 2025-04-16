@@ -1,25 +1,11 @@
 import { Pressable, Text, TextInput, View } from "react-native";
 import { style, thirdPartyStyles } from "@/styles/index";
 import { useEffect, useState } from "react";
-import {
-  useFonts,
-  Kanit_700Bold,
-  Kanit_400Regular,
-  Kanit_500Medium,
-  Kanit_600SemiBold,
-} from "@expo-google-fonts/kanit";
-import AppLoading from "expo-app-loading";
 import { useRouter } from "expo-router";
 import { handleCreateUser } from "../domain/User";
 
 export default function Index(): JSX.Element {
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    Kanit_400Regular,
-    Kanit_700Bold,
-    Kanit_600SemiBold,
-    Kanit_500Medium,
-  });
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -36,10 +22,6 @@ export default function Index(): JSX.Element {
     },
     [error]
   );
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
 
   return (
     <View style={style.container}>
