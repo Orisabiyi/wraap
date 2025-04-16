@@ -26,5 +26,15 @@ export const homeStyle = StyleSheet.create({
     fontSize: 40,
     width: '60%',
     color: '#fff'
+  },
+  imgContainer: {
+    height: 240,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  img: {
+    flex: 1,
+    width: '100%'
   }
 })
