@@ -1,5 +1,5 @@
 import { homeStyle } from "@/styles/homescreen";
-import { Text, View } from "react-native";
+import { Button, Pressable, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { Image } from "expo-image";
@@ -26,6 +26,10 @@ export default function Index(): JSX.Element {
             style={homeStyle.img}
           />
         </View>
+
+        <Pressable style={{ width: "80%" }}>
+          <Text style={homeStyle.button}>Get Started</Text>
+        </Pressable>
       </LinearGradient>
     </SafeAreaProvider>
   );

@@ -12,7 +12,7 @@ export const homeStyle = StyleSheet.create({
 
     display: 'flex',
     alignItems: 'center',
-    gap: 70,
+    gap: 60,
   },
   topText: {
     alignSelf: 'flex-end',
@@ -36,5 +36,24 @@ export const homeStyle = StyleSheet.create({
   img: {
     flex: 1,
     width: '100%'
+  },
+  button: {
+    width: '100%',
+    textAlign: 'center',
+    fontWeight: '600',
+    color: '#605E5E',
+    backgroundColor: '#C6E431',
+    paddingVertical: 10,
+    borderRadius: 100,
+    fontSize: 20,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   }
 })
