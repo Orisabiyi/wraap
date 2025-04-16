@@ -12,7 +12,7 @@ export const homeStyle = StyleSheet.create({
 
     display: 'flex',
     alignItems: 'center',
-    gap: 60,
+    gap: 70,
   },
   topText: {
     alignSelf: 'flex-end',
@@ -22,7 +22,6 @@ export const homeStyle = StyleSheet.create({
   },
   header: {
     fontFamily: 'irish-grover',
-    // fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 40,
     width: '60%',
