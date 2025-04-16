@@ -1,5 +1,5 @@
 import { Pressable, Text, TextInput, View } from "react-native";
-import { style, thirdPartyStyles } from "../styles/index";
+import { style, thirdPartyStyles } from "@/styles/index";
 import { useEffect, useState } from "react";
 import {
   useFonts,
@@ -10,7 +10,7 @@ import {
 } from "@expo-google-fonts/kanit";
 import AppLoading from "expo-app-loading";
 import { useRouter } from "expo-router";
-import { handleCreateUser } from "./domain/User";
+import { handleCreateUser } from "../domain/User";
 
 export default function Index(): JSX.Element {
   const router = useRouter();
