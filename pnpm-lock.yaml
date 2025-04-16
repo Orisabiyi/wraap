@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@expo-google-fonts/irish-grover':
+        specifier: ^0.3.0
+        version: 0.3.0
       '@expo-google-fonts/kanit':
         specifier: ^0.3.0
         version: 0.3.0
@@ -884,6 +887,9 @@ packages:
   '@eslint/js@8.57.1':
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  '@expo-google-fonts/irish-grover@0.3.0':
+    resolution: {integrity: sha512-tVNFJgATui/iD4PgNq4hjL8/egG0nqmefN0XJnBZCrYv+EF1zKsCGnqXHYY7lxpiXtg4skJ3XOxlihDT/iZlWA==}
 
   '@expo-google-fonts/kanit@0.3.0':
     resolution: {integrity: sha512-6k9aW0eS2vD14nUZpBHZeJspDKNj1CsoTM9SPI2trQLjp970I3gtWdSP+U2aAAB0cs8tEtitDN9s16LjG3J1uA==}
@@ -6465,6 +6471,8 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.57.1': {}
+
+  '@expo-google-fonts/irish-grover@0.3.0': {}
 
   '@expo-google-fonts/kanit@0.3.0': {}
 

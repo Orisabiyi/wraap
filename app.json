@@ -32,6 +32,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/irish-grover/400Regular/IrishGrover_400Regular.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {

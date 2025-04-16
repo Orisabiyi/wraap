@@ -13,6 +13,7 @@ export default function Index(): JSX.Element {
         colors={["#6BF057", "#0C3A13"]}
         style={[homeStyle.container, homeStyle.gradientContainer]}>
         <Text style={homeStyle.topText}>Skip</Text>
+        <Text style={homeStyle.header}>Capture Your Moments</Text>
       </LinearGradient>
     </SafeAreaProvider>
   );
