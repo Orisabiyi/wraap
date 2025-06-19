@@ -1,27 +1,48 @@
 import { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
-import { LoginErrorMsg } from 'types/auth';
+import { AuthErrorMsg } from 'types/auth';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
-// import clsx from 'clsx';
+
+const styles = {
+  container: `items-center flex-1 justify-center gap-5 bg-[#0C3A13]`,
+  inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
+
+  inputLabel: `text-xl text-white font-medium mb-2`,
+  textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white/80`,
+
+  button: `w-4/5 mx-auto bg-white p-4 rounded-full bg-[#51BA34]`,
+  arrowButton: `absolute top-20 left-10 bg-white p-1 rounded-full`,
+  socialButton: `flex flex-row items-center justify-center gap-3 bg-green-800 w-4/5 p-4 rounded-full`,
+
+  textError: `text-red-500 text-lg mt-2`,
+  buttonText: `mx-auto font-semibold text-xl`,
+  text: `text-white text-lg w-4/5 mx-auto mb-10`,
+  socialText: `text-xl text-white font-semibold`,
+};
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export function AuthForm({
   buttonText,
   displayPrompt = true,
   back,
+  authType,
 }: {
   buttonText: string;
   displayPrompt?: boolean;
   back?: boolean;
+  authType: 'login' | 'signup';
 }) {
-  const [error, setError] = useState<LoginErrorMsg>({ userMsg: '', passwordMsg: '' });
+  const [error, setError] = useState<AuthErrorMsg>({ userMsg: '', passwordMsg: '', mailMsg: '' });
   const [password, setPassword] = useState<string>('');
+  const [mail, setMail] = useState<string>('');
   const [name, setName] = useState<string>('');
   const router = useRouter();
 
   useEffect(() => {
     if (error.userMsg || error.passwordMsg) {
-      const timeout = setTimeout(() => setError({ userMsg: '', passwordMsg: '' }), 10000);
+      const timeout = setTimeout(() => setError({ userMsg: '', passwordMsg: '' }), 5000);
 
       return () => clearTimeout(timeout);
     }
@@ -30,6 +51,13 @@ export function AuthForm({
   function handleSubmit() {
     if (!password) setError((errorMsg) => ({ ...errorMsg, passwordMsg: 'Password is required' }));
     if (!name) setError((errorMsg) => ({ ...errorMsg, userMsg: 'Username is required' }));
+
+    if (authType === 'signup' && !mail)
+      return setError((errorMsg) => ({ ...errorMsg, mailMsg: 'Email is required' }));
+
+    if (authType === 'signup' && !emailRegex.test(mail)) {
+      setError((errorMsg) => ({ ...errorMsg, mailMsg: 'Please provide a mail' }));
+    }
   }
 
   return (
@@ -42,11 +70,23 @@ export function AuthForm({
 
       <Ionicons name="aperture-outline" size={64} color="white" className="mx-auto" />
 
+      {authType === 'signup' && (
+        <View className={styles.inputContainer}>
+          <Text className={styles.inputLabel}>Email</Text>
+          <TextInput
+            value={mail}
+            placeholder="example@gmail.com"
+            onChangeText={setMail}
+            className={styles.textInput}
+          />
+          {error.mailMsg && <Text className={styles.textError}>{error.mailMsg}</Text>}
+        </View>
+      )}
       <View className={styles.inputContainer}>
         <Text className={styles.inputLabel}>Username</Text>
         <TextInput
           value={name}
-          placeholder="Username"
+          placeholder="johndoe"
           onChangeText={setName}
           className={styles.textInput}
         />
@@ -96,19 +136,26 @@ export function AuthForm({
     </View>
   );
 }
-const styles = {
-  container: `items-center flex-1 justify-center gap-5 bg-[#0C3A13]`,
-  inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
 
-  inputLabel: `text-2xl text-white font-medium mb-2`,
-  textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white`,
+export function AuthForgotPassword() {
+  const router = useRouter();
 
-  button: `w-4/5 mx-auto bg-white p-4 rounded-full bg-[#51BA34]`,
-  arrowButton: `absolute top-20 left-10 bg-white p-1 rounded-full`,
-  socialButton: `flex flex-row items-center justify-center gap-3 bg-green-800 w-4/5 p-4 rounded-full`,
+  return (
+    <View className={styles.container}>
+      <Pressable className={styles.arrowButton} onPress={() => router.back()}>
+        <Ionicons name="arrow-back" size={20} onPress={() => router.back()} />
+      </Pressable>
 
-  textError: `text-red-500 text-lg mt-2`,
-  buttonText: `mx-auto font-semibold text-xl`,
-  text: `text-white text-lg w-4/5 mx-auto mb-10`,
-  socialText: `text-xl text-white font-semibold`,
-};
+      <Ionicons name="aperture-outline" size={64} color="white" className="mx-auto" />
+
+      <View className={styles.inputContainer}>
+        <Text className={styles.inputLabel}>Email</Text>
+        <TextInput placeholder="email" className={styles.textInput} autoCorrect={false} />
+      </View>
+
+      <Pressable className={styles.button} onPress={() => console.log('Reset Password')}>
+        <Text className={styles.buttonText}>User verification</Text>
+      </Pressable>
+    </View>
+  );
+}
