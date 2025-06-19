@@ -4,7 +4,7 @@ import { LoginErrorMsg } from 'types/auth';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router';
 
-export function Login() {
+export function AuthForm({ buttonText }: { buttonText: string }) {
   const [name, setName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<LoginErrorMsg>({ userMsg: '', passwordMsg: '' });
@@ -49,7 +49,7 @@ export function Login() {
       </Text>
 
       <Pressable className={styles.button} onPress={handleSubmit}>
-        <Text className={styles.buttonText}>Sign in</Text>
+        <Text className={styles.buttonText}>{buttonText}</Text>
       </Pressable>
     </View>
   );

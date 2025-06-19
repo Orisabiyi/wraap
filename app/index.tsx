@@ -1,10 +1,10 @@
-import { Login } from 'components/ScreenContent';
+import { AuthForm } from 'components/auth-form';
 import { StatusBar } from 'expo-status-bar';
 
 export default function Index() {
   return (
     <>
-      <Login />
+      <AuthForm buttonText="Sign in" />
       <StatusBar style="auto" />
     </>
   );
