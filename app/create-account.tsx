@@ -3,7 +3,7 @@ import { AuthForm } from 'components/auth-form';
 export default function CreateAccount() {
   return (
     <>
-      <AuthForm buttonText="Sign up" />
+      <AuthForm buttonText="Sign up" back={true} />
     </>
   );
 }
