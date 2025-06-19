@@ -55,7 +55,7 @@ export function AuthForm({ buttonText }: { buttonText: string }) {
   );
 }
 const styles = {
-  container: `items-center flex-1 justify-center gap-5 bg-[#0C3A13]`,
+  container: `items-stretch flex-1 justify-center gap-5 bg-[#0C3A13]`,
   inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
   inputLabel: `text-2xl text-white font-medium mb-2`,
   textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white`,
