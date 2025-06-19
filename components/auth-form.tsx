@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { LoginErrorMsg } from 'types/auth';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 
-export function AuthForm({ buttonText, back }: { buttonText: string; back?: boolean }) {
-  const [error, setError] = useState<LoginErrorMsg>({ userMsg: '', passwordMsg: '' });
-  const [password, setPassword] = useState<string>('');
+export function AuthForm({ buttonText }: { buttonText: string }) {
   const [name, setName] = useState<string>('');
-  const router = useRouter();
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<LoginErrorMsg>({ userMsg: '', passwordMsg: '' });
 
   useEffect(() => {
     setTimeout(() => setError({ userMsg: '', passwordMsg: '' }), 10000);
@@ -21,12 +20,6 @@ export function AuthForm({ buttonText, back }: { buttonText: string; back?: bool
 
   return (
     <View className={styles.container}>
-      {back && (
-        <Pressable className={styles.arrowButton} onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={20}></Ionicons>
-        </Pressable>
-      )}
-
       <Ionicons name="aperture-outline" size={64} color="white" className="mx-auto" />
 
       <View className={styles.inputContainer}>
@@ -62,13 +55,12 @@ export function AuthForm({ buttonText, back }: { buttonText: string; back?: bool
   );
 }
 const styles = {
-  container: `items-stretch flex-1 justify-center gap-5 bg-[#0C3A13] relative`,
+  container: `items-stretch flex-1 justify-center gap-5 bg-[#0C3A13]`,
   inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
   inputLabel: `text-2xl text-white font-medium mb-2`,
   textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white`,
   button: `w-4/5 mx-auto bg-white p-5 rounded-xl bg-[#51BA34]`,
   buttonText: `mx-auto font-semibold text-2xl`,
-  text: `text-white text-base w-4/5 mx-auto mb-5`,
+  text: `text-white text-xl w-4/5 mx-auto mb-5`,
   textError: `text-red-500 text-lg mt-2`,
-  arrowButton: `absolute top-20 left-10 bg-white p-2 rounded-full`,
 };
