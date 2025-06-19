@@ -74,9 +74,25 @@ export function AuthForm({
         <Text className={styles.buttonText}>{buttonText}</Text>
       </Pressable>
 
-      <Text className={styles.text}>
-        Don&apos;t have an account? <Link href="/create-account">Sign Up</Link>
-      </Text>
+      <Pressable className={styles.socialButton} onPress={() => console.log('Google Sign In')}>
+        <Ionicons name="logo-google" color="white" size={24} />
+        <Text className={styles.socialText}>
+          {displayPrompt ? 'Continue' : 'Sign up'} with Google
+        </Text>
+      </Pressable>
+
+      <Pressable className={styles.socialButton} onPress={() => console.log('Google Sign In')}>
+        <Ionicons name="logo-twitter" color="white" size={24} />
+        <Text className={styles.socialText}>
+          {displayPrompt ? 'Continue' : 'Sign up'} with Twitter
+        </Text>
+      </Pressable>
+
+      {displayPrompt && (
+        <Text className={styles.text}>
+          Don&apos;t have an account? <Link href="/create-account">Sign Up</Link>
+        </Text>
+      )}
     </View>
   );
 }
@@ -87,10 +103,12 @@ const styles = {
   inputLabel: `text-2xl text-white font-medium mb-2`,
   textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white`,
 
-  button: `w-4/5 mx-auto bg-white p-4 rounded-xl bg-[#51BA34]`,
+  button: `w-4/5 mx-auto bg-white p-4 rounded-full bg-[#51BA34]`,
   arrowButton: `absolute top-20 left-10 bg-white p-1 rounded-full`,
+  socialButton: `flex flex-row items-center justify-center gap-3 bg-green-800 w-4/5 p-4 rounded-full`,
 
   textError: `text-red-500 text-lg mt-2`,
-  buttonText: `mx-auto font-semibold text-2xl`,
+  buttonText: `mx-auto font-semibold text-xl`,
   text: `text-white text-lg w-4/5 mx-auto mb-10`,
+  socialText: `text-xl text-white font-semibold`,
 };
