@@ -2,16 +2,30 @@ import { useEffect, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { LoginErrorMsg } from 'types/auth';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+// import clsx from 'clsx';
 
-export function AuthForm({ buttonText }: { buttonText: string }) {
-  const [name, setName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+export function AuthForm({
+  buttonText,
+  displayPrompt = true,
+  back,
+}: {
+  buttonText: string;
+  displayPrompt?: boolean;
+  back?: boolean;
+}) {
   const [error, setError] = useState<LoginErrorMsg>({ userMsg: '', passwordMsg: '' });
+  const [password, setPassword] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const router = useRouter();
 
   useEffect(() => {
-    setTimeout(() => setError({ userMsg: '', passwordMsg: '' }), 10000);
-  }, [error]);
+    if (error.userMsg || error.passwordMsg) {
+      const timeout = setTimeout(() => setError({ userMsg: '', passwordMsg: '' }), 10000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [error.userMsg, error.passwordMsg]);
 
   function handleSubmit() {
     if (!password) setError((errorMsg) => ({ ...errorMsg, passwordMsg: 'Password is required' }));
@@ -20,6 +34,12 @@ export function AuthForm({ buttonText }: { buttonText: string }) {
 
   return (
     <View className={styles.container}>
+      {back && (
+        <Pressable className={styles.arrowButton} onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={20} onPress={() => router.back()} />
+        </Pressable>
+      )}
+
       <Ionicons name="aperture-outline" size={64} color="white" className="mx-auto" />
 
       <View className={styles.inputContainer}>
@@ -44,23 +64,33 @@ export function AuthForm({ buttonText }: { buttonText: string }) {
         {error.passwordMsg && <Text className={styles.textError}>{error.passwordMsg}</Text>}
       </View>
 
-      <Text className={styles.text}>
-        Don&apos;t have an account? <Link href="/create-account">Sign Up</Link>
-      </Text>
+      {displayPrompt && (
+        <Link href="/forgot-password">
+          <Text className={styles.text}>Forgot Password?</Text>
+        </Link>
+      )}
 
       <Pressable className={styles.button} onPress={handleSubmit}>
         <Text className={styles.buttonText}>{buttonText}</Text>
       </Pressable>
+
+      <Text className={styles.text}>
+        Don&apos;t have an account? <Link href="/create-account">Sign Up</Link>
+      </Text>
     </View>
   );
 }
 const styles = {
-  container: `items-stretch flex-1 justify-center gap-5 bg-[#0C3A13]`,
+  container: `items-center flex-1 justify-center gap-5 bg-[#0C3A13]`,
   inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
+
   inputLabel: `text-2xl text-white font-medium mb-2`,
   textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white`,
-  button: `w-4/5 mx-auto bg-white p-5 rounded-xl bg-[#51BA34]`,
-  buttonText: `mx-auto font-semibold text-2xl`,
-  text: `text-white text-xl w-4/5 mx-auto mb-5`,
+
+  button: `w-4/5 mx-auto bg-white p-4 rounded-xl bg-[#51BA34]`,
+  arrowButton: `absolute top-20 left-10 bg-white p-1 rounded-full`,
+
   textError: `text-red-500 text-lg mt-2`,
+  buttonText: `mx-auto font-semibold text-2xl`,
+  text: `text-white text-lg w-4/5 mx-auto mb-10`,
 };
