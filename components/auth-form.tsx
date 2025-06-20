@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import { AuthErrorMsg } from 'types/auth';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 
 const styles = {
@@ -167,6 +167,8 @@ export function AuthForgotPassword() {
         setIsLoading(false);
         console.log('User verification initiated');
       }, 2000);
+
+      router.push('update-password');
     }
   }
 
@@ -207,6 +209,75 @@ export function AuthForgotPassword() {
       <Pressable className={styles.button} onPress={handleVerify} disabled={isLoading}>
         {!isLoading && <Text className={styles.buttonText}>User verification</Text>}
         {isLoading && <ActivityIndicator size="small" color="#0C3A13" />}
+      </Pressable>
+    </View>
+  );
+}
+
+export function AuthUpdatePassword() {
+  const router = useRouter();
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [error, setError] = useState<AuthErrorMsg>({ passwordMsg: '', confirmPasswordMsg: '' });
+
+  useEffect(() => {
+    if (error.passwordMsg || error.confirmPasswordMsg) {
+      const timeout = setTimeout(() => setError({ passwordMsg: '', confirmPasswordMsg: '' }), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error.passwordMsg, error.confirmPasswordMsg]);
+
+  function handleUpdatePassword() {
+    if (!password) {
+      setError((errorMsg) => ({ ...errorMsg, passwordMsg: 'Password is required' }));
+    } else if (password !== confirmPassword) {
+      setError((errorMsg) => ({ ...errorMsg, confirmPasswordMsg: 'Passwords do not match' }));
+    } else {
+      console.log('Password updated successfully');
+      router.push('/login');
+    }
+  }
+
+  return (
+    <View className={styles.container}>
+      <Pressable className={styles.arrowButton} onPress={() => router.back()}>
+        <Ionicons name="arrow-back" size={20} onPress={() => router.back()} />
+      </Pressable>
+
+      <Ionicons name="aperture-outline" size={64} color="white" className="mx-auto" />
+
+      <View className={styles.inputContainer}>
+        <Text className={styles.inputLabel}>New Password</Text>
+        <TextInput
+          value={password}
+          onChangeText={setPassword}
+          placeholder="new password"
+          secureTextEntry={true}
+          autoCorrect={false}
+          autoCapitalize="none"
+          className={styles.textInput}
+        />
+        {error.passwordMsg && <Text className={styles.textError}>{error.passwordMsg}</Text>}
+      </View>
+
+      <View className={styles.inputContainer}>
+        <Text className={styles.inputLabel}>Confirm Password</Text>
+        <TextInput
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholder="confirm password"
+          secureTextEntry={true}
+          autoCorrect={false}
+          autoCapitalize="none"
+          className={styles.textInput}
+        />
+        {error.confirmPasswordMsg && (
+          <Text className={styles.textError}>{error.confirmPasswordMsg}</Text>
+        )}
+      </View>
+
+      <Pressable onPress={handleUpdatePassword} className={styles.button}>
+        <Text className={styles.buttonText}>Update Password</Text>
       </Pressable>
     </View>
   );
