@@ -5,13 +5,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
 
 const styles = {
-  container: `items-center flex-1 justify-center gap-5 bg-[#0C3A13]`,
+  container: `items-center flex-1 justify-center gap-5 bg-primary`,
   inputContainer: `w-4/5 rounded-lg shadow-md mx-auto`,
 
   inputLabel: `text-xl text-white font-medium mb-2`,
   textInput: `w-full h-12 px-4 border border-gray-300 rounded-lg text-white text-xl placeholder:text-white/80`,
 
-  button: `w-4/5 mx-auto bg-white p-4 rounded-full bg-[#51BA34]`,
+  button: `w-4/5 mx-auto bg-white p-4 rounded-full bg-primaryLight`,
   arrowButton: `absolute top-20 left-10 bg-white p-1 rounded-full`,
   socialButton: `flex flex-row items-center justify-center gap-3 bg-green-800 w-4/5 p-4 rounded-full`,
 
@@ -206,7 +206,7 @@ export function AuthForgotPassword() {
 
       <Pressable className={styles.button} onPress={handleVerify} disabled={isLoading}>
         {!isLoading && <Text className={styles.buttonText}>User verification</Text>}
-        {isLoading && <ActivityIndicator size="small" color="#0000ff" />}
+        {isLoading && <ActivityIndicator size="small" color="#0C3A13" />}
       </Pressable>
     </View>
   );
