@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-native';
 import { AuthErrorMsg } from 'types/auth';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
@@ -139,6 +139,36 @@ export function AuthForm({
 
 export function AuthForgotPassword() {
   const router = useRouter();
+  const [email, setEmail] = useState<string>('');
+  const [name, setName] = useState<string>('');
+  const [error, setError] = useState<AuthErrorMsg>({ userMsg: '', mailMsg: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (error.mailMsg || error.userMsg) {
+      const timeout = setTimeout(() => setError({ userMsg: '', mailMsg: '' }), 5000);
+      return () => clearTimeout(timeout);
+    }
+  }, [error.mailMsg, error.userMsg]);
+
+  function handleVerify() {
+    if (!name && !email)
+      setError({ userMsg: 'Username is required', mailMsg: 'Email is required' });
+    if (!emailRegex.test(email))
+      setError((errorMsg) => ({ ...errorMsg, mailMsg: 'Please provide a valid email' }));
+    if (!email) setError((errorMsg) => ({ ...errorMsg, mailMsg: 'Email is required' }));
+    if (!name) setError((errorMsg) => ({ ...errorMsg, userMsg: 'Username is required' }));
+
+    if (email && name && emailRegex.test(email)) {
+      setIsLoading(true);
+
+      // Simulate API call
+      setTimeout(() => {
+        setIsLoading(false);
+        console.log('User verification initiated');
+      }, 2000);
+    }
+  }
 
   return (
     <View className={styles.container}>
@@ -150,11 +180,33 @@ export function AuthForgotPassword() {
 
       <View className={styles.inputContainer}>
         <Text className={styles.inputLabel}>Email</Text>
-        <TextInput placeholder="email" className={styles.textInput} autoCorrect={false} />
+        <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholder="email"
+          className={styles.textInput}
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
+        {error.mailMsg && <Text className={styles.textError}>{error.mailMsg}</Text>}
       </View>
 
-      <Pressable className={styles.button} onPress={() => console.log('Reset Password')}>
-        <Text className={styles.buttonText}>User verification</Text>
+      <View className={styles.inputContainer}>
+        <Text className={styles.inputLabel}>Username</Text>
+        <TextInput
+          value={name}
+          onChangeText={setName}
+          placeholder="username"
+          className={styles.textInput}
+          autoCorrect={false}
+          autoCapitalize="none"
+        />
+        {error.userMsg && <Text className={styles.textError}>{error.userMsg}</Text>}
+      </View>
+
+      <Pressable className={styles.button} onPress={handleVerify} disabled={isLoading}>
+        {!isLoading && <Text className={styles.buttonText}>User verification</Text>}
+        {isLoading && <ActivityIndicator size="small" color="#0000ff" />}
       </Pressable>
     </View>
   );
