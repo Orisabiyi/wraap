@@ -217,6 +217,7 @@ export function AuthForgotPassword() {
 export function AuthUpdatePassword() {
   const router = useRouter();
   const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [error, setError] = useState<AuthErrorMsg>({ passwordMsg: '', confirmPasswordMsg: '' });
 
@@ -233,8 +234,17 @@ export function AuthUpdatePassword() {
     } else if (password !== confirmPassword) {
       setError((errorMsg) => ({ ...errorMsg, confirmPasswordMsg: 'Passwords do not match' }));
     } else {
-      console.log('Password updated successfully');
-      router.push('/login');
+      setIsLoading(true);
+
+      // Simulate API call
+      setTimeout(() => {
+        setIsLoading(false);
+        console.log('User verification initiated');
+      }, 2000);
+
+      setPassword('');
+      setConfirmPassword('');
+      // router.push('/login');
     }
   }
 
@@ -277,7 +287,8 @@ export function AuthUpdatePassword() {
       </View>
 
       <Pressable onPress={handleUpdatePassword} className={styles.button}>
-        <Text className={styles.buttonText}>Update Password</Text>
+        {!isLoading && <Text className={styles.buttonText}>Update Password</Text>}
+        {isLoading && <ActivityIndicator size="small" color="#0C3A13" />}
       </Pressable>
     </View>
   );
