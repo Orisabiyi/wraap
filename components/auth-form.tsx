@@ -82,6 +82,7 @@ export function AuthForm({
           {error.mailMsg && <Text className={styles.textError}>{error.mailMsg}</Text>}
         </View>
       )}
+
       <View className={styles.inputContainer}>
         <Text className={styles.inputLabel}>Username</Text>
         <TextInput
@@ -244,7 +245,7 @@ export function AuthUpdatePassword() {
 
       setPassword('');
       setConfirmPassword('');
-      // router.push('/login');
+      router.push('/');
     }
   }
 
