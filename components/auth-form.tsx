@@ -3,6 +3,8 @@ import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-nativ
 import { AuthErrorMsg } from 'types/auth';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
+import { loginUser } from 'services/auth.service';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const styles = {
   container: `items-center flex-1 justify-center gap-5 bg-primary`,
@@ -35,6 +37,7 @@ export function AuthForm({
   authType: 'login' | 'signup';
 }) {
   const [error, setError] = useState<AuthErrorMsg>({ userMsg: '', passwordMsg: '', mailMsg: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [mail, setMail] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -48,7 +51,7 @@ export function AuthForm({
     }
   }, [error.userMsg, error.passwordMsg]);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!password) setError((errorMsg) => ({ ...errorMsg, passwordMsg: 'Password is required' }));
     if (!name) setError((errorMsg) => ({ ...errorMsg, userMsg: 'Username is required' }));
 
@@ -57,6 +60,28 @@ export function AuthForm({
 
     if (authType === 'signup' && !emailRegex.test(mail)) {
       setError((errorMsg) => ({ ...errorMsg, mailMsg: 'Please provide a mail' }));
+    }
+
+    try {
+      setIsLoading(true);
+      if (password && name && authType !== 'signup') {
+        const response = await loginUser(name, password);
+        const token = response.data.userToken;
+        AsyncStorage.setItem('userToken', token);
+      }
+    } catch (error) {
+      // setError((errorMsg) => ({
+      //   ...errorMsg,
+      //   userMsg: 'Login failed',
+      // }));
+
+      if (error instanceof Error) {
+        console.error('Login failed:', JSON.stringify(error.message));
+      } else {
+        console.error('Login failed:', JSON.stringify(error));
+      }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -112,7 +137,8 @@ export function AuthForm({
       )}
 
       <Pressable className={styles.button} onPress={handleSubmit}>
-        <Text className={styles.buttonText}>{buttonText}</Text>
+        {!isLoading && <Text className={styles.buttonText}>{buttonText}</Text>}
+        {isLoading && <ActivityIndicator size="small" color="#0C3A13" />}
       </Pressable>
 
       <Pressable className={styles.socialButton} onPress={() => console.log('Google Sign In')}>
