@@ -3,8 +3,9 @@ import { ActivityIndicator, Pressable, Text, TextInput, View } from 'react-nativ
 import { AuthErrorMsg } from 'types/auth';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
-import { loginUser } from 'services/auth.service';
+import { loginUser, signUser } from 'services/auth.service';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ToastManager, { Toast } from 'toastify-react-native';
 
 const styles = {
   container: `items-center flex-1 justify-center gap-5 bg-primary`,
@@ -64,24 +65,27 @@ export function AuthForm({
 
     try {
       setIsLoading(true);
-      if (password && name && authType !== 'signup') {
+
+      if (password && name && authType === 'login') {
         const response = await loginUser(name, password);
         const token = response.data.userToken;
-        console.log('Login successful:', response.data.userToken);
+        // console.log('Login successful:', response.data.userToken);
         AsyncStorage.setItem('userToken', token);
         router.push('/(tabs)');
       }
-    } catch (error) {
-      // setError((errorMsg) => ({
-      //   ...errorMsg,
-      //   userMsg: 'Login failed',
-      // }));
 
-      if (error instanceof Error) {
-        console.error('Login failed:', JSON.stringify(error.message));
-      } else {
-        console.error('Login failed:', JSON.stringify(error));
+      if (authType === 'signup' && password && name && mail) {
+        console.log(authType, password, name, mail);
+        const response = await signUser(name, password, mail);
+        // const token = response.data.userToken;
+        // // console.log('Signup successful:', response.data.userToken);
+        // AsyncStorage.setItem('userToken', token);
+
+        console.log('Signup successful:', response.data);
+        // router.push('/(tabs)');
       }
+    } catch (error) {
+      Toast.error(error instanceof Error ? error.message : 'An error occurred', 'bottom');
     } finally {
       setIsLoading(false);
     }
@@ -105,6 +109,7 @@ export function AuthForm({
             placeholder="example@gmail.com"
             onChangeText={setMail}
             className={styles.textInput}
+            autoCapitalize="none"
           />
           {error.mailMsg && <Text className={styles.textError}>{error.mailMsg}</Text>}
         </View>
@@ -117,6 +122,7 @@ export function AuthForm({
           placeholder="johndoe"
           onChangeText={setName}
           className={styles.textInput}
+          autoCapitalize="none"
         />
         {error.userMsg && <Text className={styles.textError}>{error.userMsg}</Text>}
       </View>
@@ -128,6 +134,7 @@ export function AuthForm({
           className={styles.textInput}
           secureTextEntry={true}
           onChangeText={setPassword}
+          autoCapitalize="none"
         />
         {error.passwordMsg && <Text className={styles.textError}>{error.passwordMsg}</Text>}
       </View>
@@ -162,6 +169,8 @@ export function AuthForm({
           Don&apos;t have an account? <Link href="/create-account">Sign Up</Link>
         </Text>
       )}
+
+      <ToastManager />
     </View>
   );
 }

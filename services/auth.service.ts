@@ -9,6 +9,22 @@ export async function loginUser(username: string, password: string) {
 
     return res
   } catch (error) {
-    throw new Error(`Login failed: ${error instanceof Error ? error.message : ''}`);
+    throw new Error(`Login failed: ${error as any ? (error as any).response.data.message : ''}`);
   }
 }
+
+
+export async function signUser(username: string, password: string, email: string) {
+  try {
+    const res = await instance.post('/sign-up', {
+      username,
+      password,
+      email
+    })
+
+    return res
+  } catch (error) {
+    throw new Error(`${error as any ? JSON.stringify((error as any).response.data.message) : ''}`);
+  }
+}
+
