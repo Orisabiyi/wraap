@@ -69,6 +69,7 @@ export function AuthForm({
         const token = response.data.userToken;
         console.log('Login successful:', response.data.userToken);
         AsyncStorage.setItem('userToken', token);
+        router.push('/(tabs)');
       }
     } catch (error) {
       // setError((errorMsg) => ({
