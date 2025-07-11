@@ -67,6 +67,7 @@ export function AuthForm({
       if (password && name && authType !== 'signup') {
         const response = await loginUser(name, password);
         const token = response.data.userToken;
+        console.log('Login successful:', response.data.userToken);
         AsyncStorage.setItem('userToken', token);
       }
     } catch (error) {
